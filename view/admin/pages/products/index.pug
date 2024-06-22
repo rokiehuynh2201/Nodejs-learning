@@ -1,0 +1,16 @@
+extends ../../layout/default.pug
+
+block main
+    h1 #{titlePage}
+    .container.py-5
+        .row.row-cols-1.row-cols-md-3.g-4.py-5
+            each item in products
+                .col-xl-3
+                    .card.h-100
+                        img.card-img-top(src=item.image alt='products')
+                        .card-body
+                            h5.card-title.text-truncate #{item.title}
+                            p.card-text.text-truncate #{item.description}
+                        .mb-5.d-flex.justify-content-around 
+                            h3 #{item.price}
+                            button.btn.btn-primary Buy Now
