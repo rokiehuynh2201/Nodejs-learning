@@ -1,16 +1,96 @@
 extends ../../layout/default.pug
+include ../../mixins/button
 
-block main
-    h1 #{titlePage}
-    .container.py-5
-        .row.row-cols-1.row-cols-md-3.g-4.py-5
-            each item in products
-                .col-xl-3
-                    .card.h-100
-                        img.card-img-top(src=item.image alt='products')
-                        .card-body
-                            h5.card-title.text-truncate #{item.title}
-                            p.card-text.text-truncate #{item.description}
-                        .mb-5.d-flex.justify-content-around 
-                            h3 #{item.price}
-                            button.btn.btn-primary Buy Now
+block main 
+    .card.mb-3
+        .card-header  Bộ lọc và tìm sản phẩm
+        .card-body
+            .col-6 
+                each item in filterStatus
+                    button(
+                        class=`btn btn-outline-success btn-sm ml-1 ${item.class}`
+                        button-status=item.status
+                    )  #{item.name}
+            .col-6.mt-3
+                form#form-search 
+                    .input-group 
+                        input(
+                            type="text"
+                            placeholder="Nhập từ khóa"
+                            name="keyword"
+                            class="form-control"
+                            value=keyword
+                        )
+                        .input-group-append
+                            button(
+                                type="submit"
+                                class="btn btn-primary"
+                            )   Tìm
+            .col-6 
+                +form-change-multi(`${prefixAdmin}/product/change-status-multi?_method=PATCH`)
+    .card.mb-3
+        .card-header  Danh sách
+        .card-body
+            table.table.table-sm.custom-class(
+                checkbox-multi
+            )
+                thead
+                    tr 
+                        th 
+                        +buttonCheck("checkAll")
+                        th ID 
+                        th Hình ảnh   
+                        th Tiêu đề
+                        th Giá
+                        th Tình Trạng
+                        th Hành động
+                tbody  
+                    each item in product
+                        if(item.deleted == false)
+                            tr 
+                                td 
+                                    +buttonCheck("id",item._id)
+                                td #{item.id}
+                                td 
+                                    img(src=item.image, alt="Ảnh sản phẩm",width="50px",height="auto")
+                                td #{item.title}
+                                td #{item.price}
+                                td 
+                                    if item.status == "active"
+                                        +button("badge-success","Hoạt động","active",item._id)
+                                    else
+                                        +button("badge-danger","Dừng hoạt động","inactive",item._id)
+                                td 
+                                    <button type="button" class="btn btn-warning">Sửa</button>
+                                    button(
+                                        type="button"
+                                        class="btn btn-danger"
+                                        data-id=item._id
+                                        button-delete
+                                    ) Xóa
+    nav 
+        ul.pagination.justify-content-center
+            if(paging.currentPage > 1)
+                li.page-item
+                    button(
+                            class="page-link"
+                            buttonStatus=paging.currentPage-1
+                        ) Trang trước
+            -   for (var i = 1;i<=paging.totalPage;i++)
+                    li(class=`page-item ${paging.currentPage == i ? 'active' : ''}`)
+                        button(
+                            class="page-link"
+                            buttonStatus=i
+                        ) #{i}
+            if(paging.currentPage < paging.totalPage)
+                li.page-item
+                    button(
+                            class="page-link"
+                            buttonStatus=paging.currentPage+1
+                        ) Trang sau
+    form(
+        action=`${prefixAdmin}/product`,
+        method="POST"
+        id="form-change-status"
+        data-path=`${prefixAdmin}/product/change-status`
+    ) 

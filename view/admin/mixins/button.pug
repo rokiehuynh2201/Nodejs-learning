@@ -1,0 +1,38 @@
+mixin button(color,name,state,id)
+    a(
+        href="javascript:;" 
+        class=`badge ${color}`
+        data-id=id 
+        data-status=state
+        button-change-status
+    ) #{name}
+
+mixin form-change-multi(path)
+    form(
+        action=path
+        method="POST"
+        form-change-multi
+    )
+        .d-flex.align-item-start.mt-3
+            .form-group
+                select(class="form-control" name="type")
+                    option(disabled selected) -- Chọn --
+                    option(value="active") hoạt động
+                    option(value="inactive") chưa hoạt động
+                    option(value="delete") Xóa
+            .form-group 
+                input(
+                    type="text"
+                    name="ids"
+                    value=""
+                    class="form-control d-none"
+                )
+            button.btn.btn-primary(type="submit") Gửi
+
+mixin buttonCheck(typeCheck,value="") 
+    input(
+        class="form-check-input"
+        type="checkbox"
+        name=typeCheck
+        value=value
+    )

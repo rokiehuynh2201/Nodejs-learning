@@ -9,7 +9,9 @@ const productScheme = new mongoose.Schema({
   "rating": {
     "rate": Number,
     "count": Number
-  }
+  },
+  "status":String,
+  "deleted":Boolean
 });
 
 const Product = mongoose.model("Product",productScheme,"products")
