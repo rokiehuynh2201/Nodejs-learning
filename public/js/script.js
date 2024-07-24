@@ -50,7 +50,7 @@ if(buttonChangStatus){
         item.addEventListener("click",() => {
             idStatus = item.getAttribute("data-id")
             state    = item.getAttribute("data-status")
-            action   = formChangeStatus.getAttribute("data-path")+`/${state}/${idStatus}`
+            action   = formChangeStatus.getAttribute("data-path")+`/${state}/${idStatus}?_method=PATCH`
             formChangeStatus.action=action
             formChangeStatus.submit()
         })
@@ -77,15 +77,22 @@ if(checkBox){
 
 const formChangeMulti = document.querySelector("[form-change-multi]")
 if(formChangeMulti){
+    const valueOfForm = document.querySelector("select[name='type']")
     formChangeMulti.addEventListener("submit",(e)=>{
         e.preventDefault()
         const inputsId = document.querySelectorAll("input[name='id']:checked")
         if(inputsId.length > 0){
             let ids = []
             inputsId.forEach(item => {
-                ids.push(item.value)
+                if(valueOfForm.value == "change-position"){
+                    const position = item.closest("tr").querySelectorAll("input[type='number']")[0].value
+                    ids.push(`${item.value}-${position}`)
+                }
+                else{
+                    ids.push(item.value)
+                }
             })
-            // ids.join(" ")
+            console.log(ids)
             let inputValue = document.querySelector("[name=ids]")
             inputValue.value = ids.join(", ")
             formChangeMulti.submit()
@@ -107,3 +114,4 @@ if(buttonDelete){
         })
     })
 }
+

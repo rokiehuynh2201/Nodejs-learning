@@ -1,99 +1,143 @@
 const Product = require("../../model/products.model");
 
-module.exports.index = async (req,res) => {
+module.exports.index = async (req, res) => {
     let filterStatus = [
         {
-           name:"Tất cả",
-           status:"",
-           class:""
-        },{
-           name:"Giá trên 100",
-           status:"100",
-           class:""
-        },{
-           name:"Giá dưới 20",
-           status:"20",
-           class:""
+            name: "Tất cả",
+            status: "",
+            class: ""
+        }, {
+            name: "Giá trên 100",
+            status: "100",
+            class: ""
+        }, {
+            name: "Giá dưới 20",
+            status: "20",
+            class: ""
         }
     ]
-    let find ={
-        deleted:false
+    let find = {
+        deleted: false
     }
-    if(req.query.price){
-        find.price = Number(req.query.price) == 100 ? { $gt: Number(req.query.price)} : { $lt: Number(req.query.price)}
+    if (req.query.price) {
+        find.price = Number(req.query.price) == 100 ? { $gt: Number(req.query.price) } : { $lt: Number(req.query.price) }
         let idx = filterStatus.findIndex(item => item.status === req.query.price)
-        filterStatus[idx].class="active"
-    }else{
-        filterStatus[0].class="active"
+        filterStatus[idx].class = "active"
+    } else {
+        filterStatus[0].class = "active"
     }
 
     let keyword = ""
-    if(req.query.keyword){
+    if (req.query.keyword) {
         keyword = req.query.keyword
-        find.title = new RegExp(keyword,"i")
+        find.title = new RegExp(keyword, "i")
     }
-    
+
     let products = await Product.find(find).lean()
-    
+
     let paging = {
         productInPage: 4,
-        currentPage : req.query.page ? Number(req.query.page) : 1,
+        currentPage: req.query.page ? Number(req.query.page) : 1,
     }
-    paging.totalPage = Math.ceil(products.length/paging.productInPage)
+    paging.totalPage = Math.ceil(products.length / paging.productInPage)
 
-    products = await Product.find(find).limit(paging.productInPage).skip((paging.currentPage-1)*paging.productInPage).lean()
-    res.render("admin/pages/products/index.pug",{
+    products = await Product
+    .find(find)
+    .limit(paging.productInPage).skip((paging.currentPage - 1) * paging.productInPage)
+    .sort({position:"desc"})
+    .lean()
+    res.render("admin/pages/products/index.pug", {
         pageTitle: "Trang sản phẩm",
         product: products,
         filterStatus: filterStatus,
-        keyword:keyword,
-        paging:paging
+        keyword: keyword,
+        paging: paging
     })
 }
 
-module.exports.changeStatus = async (req,res) => {
+module.exports.changeStatus = async (req, res) => {
     let id = req.params.id
-    let state = req.params.status   
+    let state = req.params.status
     products = await Product.updateOne(
-        {_id:id},
+        { _id: id },
         {
-            status: state == "active" ? "inactive":"active"
+            status: state == "active" ? "inactive" : "active"
         }
     )
-    await Product.updateMany(
-        {},
-        {deleted:false}
-    )
+    req.flash('info', 'Flash Message Added');
     res.redirect("back")
 }
 
 
-module.exports.changeMultiStatus = async (req,res) =>{
+module.exports.changeMultiStatus = async (req, res) => {
     const type = req.body.type
-    const ids =  req.body.ids.split(", ");
-    console.log(type,ids)
+    const ids = req.body.ids.split(", ");
+    console.log(type, ids)
     switch (type) {
         case "active":
-            await Product.updateMany({_id:{$in:ids}},{status:"active"})
+            await Product.updateMany({ _id: { $in: ids } }, { status: "active" })
             break;
         case "inactive":
-            await Product.updateMany({_id:{$in:ids}},{status:"inactive"})
+            await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" })
             break;
         case "delete":
-            await Product.updateMany({_id:{$in:ids}},{deleted:true})
+            await Product.updateMany({ _id: { $in: ids } }, { deleted: true })
+            break;
+        case "change-position":
+            for(let item of ids){
+                const [id,position] = item.split("-")
+                await Product.updateOne(
+                    {_id:id},
+                    {
+                        position:parseInt(position)
+                    }
+                )
+            }   
+            break;
         default:
             break;
     }
     res.redirect("back")
 }
 
-module.exports.deleteProduct = async (req,res) =>{
+module.exports.deleteProduct = async (req, res) => {
     let id = req.params.id
     await Product.updateOne(
-        {_id:id},
+        { _id: id },
         {
-            deleted:true
+            deleted: true
         }
     )
     res.redirect("back")
 }
+
+module.exports.create = (req,res) =>{
+    res.render("admin/pages/products/create-product",{
+        pageTitle: "Thêm sản phẩm mới"
+    })
+}
+
+module.exports.createProduct = async (req,res) =>{
+    let data = req.body
+    data.id  = await Product.countDocuments()
+    const product = new Product({
+        id: data.id,
+        title: data.title,
+        price: data.price,
+        description: data.desc,
+        category: data.category,
+        image: `/admin/uploads/${req.file.filename}`,
+        rating:{
+            rate:parseFloat(data.rating),
+            count:parseInt(data.quantity)
+        },
+        status:"active",
+        des:"abc",
+        deleted:false,
+        position:data.id+1
+    })
+    await product.save()
+    console.log(req.file)
+    res.redirect("/admin/product")
+}
+

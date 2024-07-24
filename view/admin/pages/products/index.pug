@@ -3,6 +3,15 @@ include ../../mixins/button
 
 block main 
     .card.mb-3
+        - if(messages.info)
+            .message.info
+                div(
+                    class="alert alert-success"
+                    role="alert"
+                    show-alert 
+                    data-time="5000"
+                )
+                    span= messages.info
         .card-header  Bộ lọc và tìm sản phẩm
         .card-body
             .col-6 
@@ -26,8 +35,15 @@ block main
                                 type="submit"
                                 class="btn btn-primary"
                             )   Tìm
-            .col-6 
-                +form-change-multi(`${prefixAdmin}/product/change-status-multi?_method=PATCH`)
+            .row
+                .col-6 
+                    +form-change-multi(`${prefixAdmin}/product/change-status-multi?_method=PATCH`)
+                .col-6.d-flex.align-items-center 
+                    a(
+                        class="btn btn-outline-success"
+                        href=`${prefixAdmin}/product/create`
+                        role="button"
+                    ) Thêm mới
     .card.mb-3
         .card-header  Danh sách
         .card-body
@@ -42,19 +58,28 @@ block main
                         th Hình ảnh   
                         th Tiêu đề
                         th Giá
+                        th Thứ tự
                         th Tình Trạng
                         th Hành động
                 tbody  
-                    each item in product
+                    each item,index in product
                         if(item.deleted == false)
                             tr 
                                 td 
                                     +buttonCheck("id",item._id)
-                                td #{item.id}
+                                td #{index+1}
                                 td 
                                     img(src=item.image, alt="Ảnh sản phẩm",width="50px",height="auto")
                                 td #{item.title}
                                 td #{item.price}
+                                td
+                                    input(
+                                        type="number"
+                                        value=item.position
+                                        style="width: 60px"
+                                        min="1"
+                                        name=position
+                                    )
                                 td 
                                     if item.status == "active"
                                         +button("badge-success","Hoạt động","active",item._id)
