@@ -1,36 +1,35 @@
 extends ../../layout/default.pug
-
-block main
-    h1 Tạo sản phẩm mới 
+block main 
+    h1 Chỉnh sủa sản phẩm 
     form(
-        action=`${prefixAdmin}/product/create` 
+        action=`${prefixAdmin}/product/edit/${record._id}?_method=PATCH` 
         method="post"
         enctype="multipart/form-data"
     )
         .form-group
             label(for="title") Tiêu đề
-            input(type="text" class="form-control" id="title" name="title" value="")
+            input(type="text" class="form-control" id="title" name="title" value=record.title)
         .form-group
             label(for="desc") Miêu tả
-            textarea(type="text" class="form-control" id="desc" rows="5" name="desc" value="")
+            textarea(class="form-control" id="desc" rows="5" name="desc") #{record.description}
         .form-group
-            label(for="price") Giá
-            input(type="text" class="form-control" id="price" name="price" value="")
+            label(for="price") Giá 
+            input(type="text" class="form-control" id="price" name="price" value=record.price)
         .form-group
             label(for="category") Loại
-            input(type="text" class="form-control" id="category" name="category" value="")
+            input(type="text" class="form-control" id="category" name="category" value=record.category)
         .form-group
             label(for="quantity") Số lượng
-            input(type="number" class="form-control" id="quantity" min="1" value="1" name="quantity")
+            input(type="number" class="form-control" id="quantity" min="1" value="1" name=record.rating.count)
         .form-group
             label(for="rating") Rating
-            input(type="number" class="form-control" id="rating" min="1" value="1" name="rating")      
+            input(type="number" class="form-control" id="rating" min="1" value="1" name=record.rating.rate)      
         .form-group
             label(for="image") Ảnh sản phẩm
             input(type="file" class="form-control-file" id="image" name="uploaded_file")     
             img(
                 id="ImgPreview"
-                src=""
+                src=record.image
                 alt="Your Image"
             )
             button(
@@ -42,14 +41,15 @@ block main
         )  
             input(
                 class="form-check-input" type="radio" name="status" id="inlineRadio1" value="active"
-                checked
+                checked = (record.status == "active" ? true : false)
             )
             label(for="inlineRadio1" class="form-check-label" ) hoạt động
         div(
             class="form-check form-check-inline"
         )  
             input(
-                class="form-check-input" type="radio" name="status" id="inlineRadio1" value="active"
+                class="form-check-input" type="radio" name="status" id="inlineRadio1" value="inactive"
+                checked = (record.status == "inactive" ? true : false)
             )
             label(for="inlineRadio1" class="form-check-label" ) Dừng hoạt động
         .form-group

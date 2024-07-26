@@ -18,7 +18,8 @@ const productScheme = new mongoose.Schema({
   "position":Number,
   "slug":{
     type:String,
-    slug:"title"
+    slug:"title",
+    unique: true
   }
 },{
   timestamps:true

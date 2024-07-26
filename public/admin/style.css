@@ -40,4 +40,24 @@
 }
 .body .main .custom-class {
     table-layout: fixed;
- }
+}
+#ImgPreview{
+    width: 30%;
+    height: auto;
+    margin-top: 15px;
+    border:1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+#ImgPreview[src=""]{
+    display: none;
+}
+
+#button-remove-img{
+    margin: 15px;
+}
+
+.hidden-button{
+    display: none;
+}

@@ -115,3 +115,24 @@ if(buttonDelete){
     })
 }
 
+const fileImage = document.querySelectorAll("input[id='image']")
+if(fileImage){
+    const imgPreview = document.querySelectorAll("img[id='ImgPreview']")
+    fileImage[0].addEventListener("change",(e)=>{
+        e.preventDefault()
+        const file = fileImage[0].files[0]
+        const url  = URL.createObjectURL(file)
+        imgPreview[0].src=url
+        
+    })
+    const buttonRemove = document.querySelectorAll("button[id='button-remove-img']")
+        if(imgPreview[0].src != ""){
+            buttonRemove[0].classList.remove("hidden-button")
+            buttonRemove[0].addEventListener("click",(e) =>{
+                e.preventDefault()
+                imgPreview[0].src=""
+                buttonRemove[0].classList.add("hidden-button")
+                fileImage[0].value = null
+            })
+        }
+}

@@ -137,7 +137,24 @@ module.exports.createProduct = async (req,res) =>{
         position:data.id+1
     })
     await product.save()
-    console.log(req.file)
+    res.redirect("/admin/product")
+}
+
+module.exports.edit = async(req,res) => {
+    const record = await Product.findOne({_id:req.params.id})
+    res.render("admin/pages/products/edit.pug",{
+        pageTitle:"Trang chỉnh sửa",
+        record:record
+    })
+}
+
+module.exports.editProduct = async(req,res) => {
+    const id = req.params.id
+    req.body.image= `/admin/uploads/${req.file.filename}`
+    await Product.updateOne(
+        {_id:id},
+        req.body
+    )
     res.redirect("/admin/product")
 }
 

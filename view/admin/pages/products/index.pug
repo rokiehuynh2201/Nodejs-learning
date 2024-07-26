@@ -86,7 +86,14 @@ block main
                                     else
                                         +button("badge-danger","Dừng hoạt động","inactive",item._id)
                                 td 
-                                    <button type="button" class="btn btn-warning">Sửa</button>
+                                    a(
+                                        href="#"
+                                        class="btn btn-success"
+                                    )   Chi tiết
+                                    a(
+                                        href=`${prefixAdmin}/product/edit/${item._id}`
+                                        class="btn btn-warning"
+                                    )  Sửa
                                     button(
                                         type="button"
                                         class="btn btn-danger"
