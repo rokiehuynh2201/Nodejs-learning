@@ -22,5 +22,5 @@ router.get("/edit/:id",controller.edit)
 
 router.patch("/edit/:id",upload.single("uploaded_file"),controller.editProduct)
 
-
+router.get("detail/:id",controller.detailProduct)
 module.exports = router;

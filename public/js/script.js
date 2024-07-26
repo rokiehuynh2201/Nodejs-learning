@@ -123,9 +123,7 @@ if(fileImage){
         const file = fileImage[0].files[0]
         const url  = URL.createObjectURL(file)
         imgPreview[0].src=url
-        
-    })
-    const buttonRemove = document.querySelectorAll("button[id='button-remove-img']")
+        const buttonRemove = document.querySelectorAll("button[id='button-remove-img']")
         if(imgPreview[0].src != ""){
             buttonRemove[0].classList.remove("hidden-button")
             buttonRemove[0].addEventListener("click",(e) =>{
@@ -135,4 +133,6 @@ if(fileImage){
                 fileImage[0].value = null
             })
         }
+    })
+    
 }

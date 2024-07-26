@@ -118,26 +118,35 @@ module.exports.create = (req,res) =>{
 }
 
 module.exports.createProduct = async (req,res) =>{
-    let data = req.body
-    data.id  = await Product.countDocuments()
-    const product = new Product({
-        id: data.id,
-        title: data.title,
-        price: data.price,
-        description: data.desc,
-        category: data.category,
-        image: `/admin/uploads/${req.file.filename}`,
-        rating:{
-            rate:parseFloat(data.rating),
-            count:parseInt(data.quantity)
-        },
-        status:"active",
-        des:"abc",
-        deleted:false,
-        position:data.id+1
-    })
-    await product.save()
-    res.redirect("/admin/product")
+    try {
+        console.log(req.body)
+        console.log(req.file.filename)
+        let data = req.body
+        data.id  = await Product.countDocuments()
+        const product =  new Product({
+            id: data.id,
+            title: data.title,
+            price: data.price,
+            description: data.desc,
+            category: data.category,
+            image: `/admin/uploads/${req.file.filename}`,
+            rating:{
+                rate:parseFloat(data.rating),
+                count:parseInt(data.quantity)
+            },
+            status:"active",
+            des:"abc",
+            deleted:false,
+            position:data.id+1
+        })
+        await product.save()
+    } catch (error) {
+        console.log(error)
+    }
+    finally{
+        res.redirect("/admin/product")
+    }
+    
 }
 
 module.exports.edit = async(req,res) => {
@@ -158,3 +167,6 @@ module.exports.editProduct = async(req,res) => {
     res.redirect("/admin/product")
 }
 
+module.exports.detailProduct = async(req,res) => {
+    res.send("Ok")
+}
