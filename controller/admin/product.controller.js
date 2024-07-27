@@ -119,8 +119,6 @@ module.exports.create = (req,res) =>{
 
 module.exports.createProduct = async (req,res) =>{
     try {
-        console.log(req.body)
-        console.log(req.file.filename)
         let data = req.body
         data.id  = await Product.countDocuments()
         const product =  new Product({
@@ -139,11 +137,12 @@ module.exports.createProduct = async (req,res) =>{
             deleted:false,
             position:data.id+1
         })
-        await product.save()
+        console.log(product)
+        const result = await product.save()
     } catch (error) {
         console.log(error)
     }
-    finally{
+    finally{    
         res.redirect("/admin/product")
     }
     
@@ -168,5 +167,10 @@ module.exports.editProduct = async(req,res) => {
 }
 
 module.exports.detailProduct = async(req,res) => {
-    res.send("Ok")
+    const record = await Product.findOne({_id:req.params.id})
+    console.log(record)
+    res.render("admin/pages/products/detail.pug",{
+        pageTitle:"Trang chi tiết",
+        record:record
+    })
 }

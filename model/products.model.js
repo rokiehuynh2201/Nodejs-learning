@@ -13,6 +13,10 @@ const productScheme = new mongoose.Schema({
     "rate": Number,
     "count": Number
   },
+  "des":{
+    type:String,
+    default:"abc"
+  },
   "status":String,
   "deleted":Boolean,
   "position":Number,

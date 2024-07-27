@@ -20,13 +20,15 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser('fsdffdsfds'));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
-app.use(express.static("public"));
+app.use(express.static(`${__dirname}/public`));
 
 const port = process.env.PORT
 db.connect();
 app.set('view engine', 'pug');
-app.set('views', './view');
+app.set('views', `${__dirname}/view`);
 app.locals.prefixAdmin = systemConfig.prefixAdmin
+console.log(__dirname)
+
 route(app);
 adminRoute(app)
 
