@@ -1,9 +1,8 @@
 extends ../../layout/default.pug
-
-block main
-    h1 Tạo sản phẩm mới 
+block main 
+    h1 Tạo danh mục
     form(
-        action=`${prefixAdmin}/product/create` 
+        action=`${prefixAdmin}/category-product/create` 
         method="post"
         enctype="multipart/form-data"
     )
@@ -11,17 +10,18 @@ block main
             label(for="title") Tiêu đề
             input(type="text" class="form-control" id="title" name="title" value="")
         .form-group
+            label(for="parent") Danh mục cha
+            select(name="parent" id="parent" class="form-control")
+                option(value="" selected) CHỌN DANH MỤC
+                if(category)
+                    each item in category
+                        option(value=item._id) #{item.title}
+        .form-group
             label(for="desc") Miêu tả
             textarea(type="text" class="form-control" id="desc" rows="5" name="desc" value="")
         .form-group
-            label(for="price") Giá
-            input(type="text" class="form-control" id="price" name="price" value="")
-        .form-group
-            label(for="category") Loại
-            input(type="text" class="form-control" id="category" name="category" value="")
-        .form-group
-            label(for="quantity") Số lượng
-            input(type="number" class="form-control" id="quantity" min="1" value="1" name="quantity")    
+            label(for="quantity") Vị trí
+            input(type="number" class="form-control" id="quantity" min="1" value="1" name="position")    
         .form-group
             label(for="image") Ảnh sản phẩm
             input(type="file" class="form-control-file" id="image" name="uploaded_file")     

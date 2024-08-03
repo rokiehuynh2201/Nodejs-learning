@@ -41,10 +41,19 @@ module.exports.index = async (req, res) => {
     }
     paging.totalPage = Math.ceil(products.length / paging.productInPage)
 
+    // Sort
+    let SortObject = {}
+    if(req.query.sortKey && req.query.sortValue)
+    {
+        
+        SortObject[req.query.sortKey] = req.query.sortValue
+    }
+    // End sort
+
     products = await Product
     .find(find)
     .limit(paging.productInPage).skip((paging.currentPage - 1) * paging.productInPage)
-    .sort({position:"desc"})
+    .sort(SortObject)
     .lean()
     res.render("admin/pages/products/index.pug", {
         pageTitle: "Trang sản phẩm",
@@ -127,7 +136,7 @@ module.exports.createProduct = async (req,res) =>{
             price: data.price,
             description: data.desc,
             category: data.category,
-            image: `/admin/uploads/${req.file.filename}`,
+            image: data.image,
             rating:{
                 rate:parseFloat(data.rating),
                 count:parseInt(data.quantity)
@@ -137,7 +146,6 @@ module.exports.createProduct = async (req,res) =>{
             deleted:false,
             position:data.id+1
         })
-        console.log(product)
         const result = await product.save()
     } catch (error) {
         console.log(error)
@@ -145,7 +153,6 @@ module.exports.createProduct = async (req,res) =>{
     finally{    
         res.redirect("/admin/product")
     }
-    
 }
 
 module.exports.edit = async(req,res) => {
@@ -174,3 +181,4 @@ module.exports.detailProduct = async(req,res) => {
         record:record
     })
 }
+

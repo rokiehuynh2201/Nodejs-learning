@@ -44,6 +44,18 @@ block main
                         href=`${prefixAdmin}/product/create`
                         role="button"
                     ) Thêm mới
+    .card.mb-3 
+        .card-header Sắp xếp 
+        .card-body 
+            .col-3
+                select(
+                    class="form-control"
+                    name = "sort"
+                )
+                    option(disabled selected) -- Chọn --
+                    option(value="price-asc") tiền tăng
+                    option(value="price-desc") tiền giảm
+                button(class="btn btn-danger" buttonSort) Clear
     .card.mb-3
         .card-header  Danh sách
         .card-body

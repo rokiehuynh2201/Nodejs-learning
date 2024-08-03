@@ -10,7 +10,8 @@ const session = require('express-session')
 const route = require("./routes/client/index.route");
 const adminRoute = require("./routes/admin/index.route.js")
 const db  = require("./config/database.js")
-const multer  = require('multer')
+const path = require('path');
+
 
 require('dotenv').config();
 
@@ -21,6 +22,7 @@ app.use(cookieParser('fsdffdsfds'));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 app.use(express.static(`${__dirname}/public`));
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 const port = process.env.PORT
 db.connect();

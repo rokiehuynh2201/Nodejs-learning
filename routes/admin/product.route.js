@@ -3,14 +3,19 @@ const express = require("express")
 const router  = express.Router()
 const controller = require("../../controller/admin/product.controller")
 const multer  = require('multer')
-const upload = require("../../helper/storageMulter")
+const upload = multer()
 const validate = require("../../validate/admin/product.validate")
+const uploadCloud = require("../../middlewares/upload.middleware")
 
 router.get("/",controller.index)
 
 router.get("/create",controller.create)
 
-router.post("/create",upload.single("uploaded_file"),validate.createPost,controller.createProduct)
+router.post("/create",
+    upload.single("uploaded_file"),
+    uploadCloud.uploadCloud,
+    validate.createPost,
+    controller.createProduct)
 
 router.patch("/change-status/:status/:id",controller.changeStatus)
 

@@ -11,6 +11,10 @@
     font-weight: 700;
     color: #fff;
 }
+.body{
+    /* display: flex; */
+    position: relative;
+}
 
 .body .sider{
     width: 150px;
@@ -21,6 +25,7 @@
     left: 0;
     height: 100vh;
 }
+
 .body .main{
     margin: 15px;
     position: relative;

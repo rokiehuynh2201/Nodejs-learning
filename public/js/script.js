@@ -115,6 +115,33 @@ if(buttonDelete){
     })
 }
 
+const sortSelect = document.querySelector("select[name='sort']")
+if(sortSelect){
+   let url = new URL(window.location.href)
+   const buttonClearSort = document.querySelector("[buttonSort]")
+   console.log(buttonClearSort)
+   sortSelect.addEventListener("change",(e)=>{
+        const value = e.target.value
+        const [sortKey,sortValue] = value.split("-")
+        url.searchParams.set("sortKey",sortKey)
+        url.searchParams.set("sortValue",sortValue)
+        window.location.href = url.href
+   })
+
+   buttonClearSort.addEventListener("click",() => {
+        url.searchParams.delete("sortKey")
+        url.searchParams.delete("sortValue")
+        window.location.href = url.href
+   })
+
+   let sortKey = url.searchParams.get("sortKey")
+   let sortValue = url.searchParams.get("sortValue")
+   if(sortKey && sortValue){
+        const optionSelect = document.querySelector(`option[value='${sortKey}-${sortValue}']`)
+        optionSelect.setAttribute("selected",true)
+   }
+}
+
 const fileImage = document.querySelectorAll("input[id='image']")
 if(fileImage){
     const imgPreview = document.querySelectorAll("img[id='ImgPreview']")
