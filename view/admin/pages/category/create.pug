@@ -1,4 +1,6 @@
 extends ../../layout/default.pug
+include ../../mixins/button.pug
+
 block main 
     h1 Tạo danh mục
     form(
@@ -14,8 +16,7 @@ block main
             select(name="parent" id="parent" class="form-control")
                 option(value="" selected) CHỌN DANH MỤC
                 if(category)
-                    each item in category
-                        option(value=item._id) #{item.title}
+                    +select-tree(category)
         .form-group
             label(for="desc") Miêu tả
             textarea(type="text" class="form-control" id="desc" rows="5" name="desc" value="")
