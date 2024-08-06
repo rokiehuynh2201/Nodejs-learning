@@ -15,6 +15,13 @@ router.post("/create",
     uploadCloud.uploadCloud,
     controller.createCategory)
 
+router.get("/edit/:id",controller.edit)
+
+router.patch("/edit/:id",
+    upload.single("uploaded_file"),
+    uploadCloud.uploadCloud,
+    controller.editCategory)
+
 module.exports = router;
 
 

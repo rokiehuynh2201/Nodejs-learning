@@ -52,11 +52,11 @@ block main
                                         +button("badge-danger","Dừng hoạt động","inactive",item._id)
                                 td 
                                     a(
-                                        href=`${prefixAdmin}/product/detail/${item._id}`
+                                        href=`${prefixAdmin}/category-product/detail/${item._id}`
                                         class="btn btn-success"
                                     )   Chi tiết
                                     a(
-                                        href=`${prefixAdmin}/product/edit/${item._id}`
+                                        href=`${prefixAdmin}/category-product/edit/${item._id}`
                                         class="btn btn-warning"
                                     )  Sửa
                                     button(
@@ -65,3 +65,6 @@ block main
                                         data-id=item._id
                                         button-delete
                                     ) Xóa
+
+
+    

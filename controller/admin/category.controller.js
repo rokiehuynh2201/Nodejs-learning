@@ -16,8 +16,6 @@ module.exports.index =  async (req,res) => {
 module.exports.create = async(req,res) => {
     const category = await Category.find({})
     const Tree = CreateTree(category)
-    // console.log(category)
-    console.log(Tree)
 
     res.render("admin/pages/category/create.pug",{
         category:Tree,
@@ -33,3 +31,27 @@ module.exports.createCategory = async (req,res) => {
     res.redirect("/admin/category-product") 
 }
 
+module.exports.edit = async(req,res) => {
+    const id = req.params.id
+    const category = await Category.findOne({_id:id})
+    const categoryList = await Category.find({})
+    const Tree = CreateTree(categoryList)
+
+    res.render("admin/pages/category/edit.category.pug",{
+        pageTitle:"Trang chỉnh sửa danh mục",
+        category:category,
+        Tree:Tree
+    })
+}
+
+module.exports.editCategory = async(req,res) => {
+    const id = req.params.id 
+    const category = req.body
+
+    await Category.updateOne(
+        {_id:id},
+        category 
+    )
+
+    res.redirect("/admin/category-product")
+}

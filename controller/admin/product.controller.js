@@ -1,4 +1,6 @@
-const Product = require("../../model/products.model");
+const Product = require("../../model/products.model")
+const CreateTree  = require("../../helper/tree")
+const Category = require("../../model/category.model")
 
 module.exports.index = async (req, res) => {
     let filterStatus = [

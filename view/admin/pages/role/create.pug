@@ -1,0 +1,27 @@
+extends ../../layout/default.pug
+block main 
+    h1 Trang tạo mới phân quyền
+    form(
+        action=`${prefixAdmin}/roles/create`
+        method="POST"
+    )
+        .form-group 
+            label(for="title") Tiêu đề
+            input(
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                )
+        .form-group 
+            label(for="des") Miêu tả
+            input(
+                type="text"
+                class="form-control"
+                id="des"
+                name="des"
+            )
+        .form-group 
+            button(
+                class="btn btn-primary"
+            ) Gửi
