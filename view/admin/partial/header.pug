@@ -5,7 +5,11 @@ header.header
                 .inner-logo
                     a(href="/admin/dashboard") ADMIN
             .col-9 
-                .text-right 
+                .text-right
+                    a(
+                        href=`${prefixAdmin}/my-account`
+                        class="btn btn-light btn-sm"
+                    ) #{user.name}
                     a(
                         href=`${prefixAdmin}/auth/logout`
                         class="btn btn-light btn-sm"

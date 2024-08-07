@@ -1,6 +1,7 @@
 const Product = require("../../model/products.model")
 const CreateTree  = require("../../helper/tree")
 const Category = require("../../model/category.model")
+const Account = require("../../model/account.model")
 
 module.exports.index = async (req, res) => {
     let filterStatus = [
@@ -34,29 +35,42 @@ module.exports.index = async (req, res) => {
         keyword = req.query.keyword
         find.title = new RegExp(keyword, "i")
     }
-
-    let products = await Product.find(find).lean()
-
+    const productNum = await Product.find(find).count()
     let paging = {
         productInPage: 4,
         currentPage: req.query.page ? Number(req.query.page) : 1,
     }
-    paging.totalPage = Math.ceil(products.length / paging.productInPage)
+    paging.totalPage = Math.ceil(productNum / paging.productInPage)
 
     // Sort
-    let SortObject = {}
+    let SortObject = {
+        position : "desc"
+    }
     if(req.query.sortKey && req.query.sortValue)
     {
-        
         SortObject[req.query.sortKey] = req.query.sortValue
     }
     // End sort
 
-    products = await Product
-    .find(find)
-    .limit(paging.productInPage).skip((paging.currentPage - 1) * paging.productInPage)
-    .sort(SortObject)
-    .lean()
+    const products = await Product.find(find)
+        .limit(paging.productInPage).skip((paging.currentPage - 1) * paging.productInPage)
+        .sort(SortObject)
+
+    for(const product of products){
+        const user = await Account.findOne({_id:product.createdBy.account_id})
+        if(user){
+            product.fullName = user.name
+        }
+        const updateBy = product.updateBy.slice(-1)[0]
+        // console.log(updateBy)
+        if(updateBy){
+            const userUpdate = await Account.findOne({_id:updateBy.account_id})
+            product.userUpdate = userUpdate.name
+        }
+    }
+
+
+
     res.render("admin/pages/products/index.pug", {
         pageTitle: "Trang sản phẩm",
         product: products,
@@ -69,10 +83,17 @@ module.exports.index = async (req, res) => {
 module.exports.changeStatus = async (req, res) => {
     let id = req.params.id
     let state = req.params.status
+    
+    const updateBy = {
+        account_id:res.locals.user._id,
+        updateAt: new Date()
+    }
+
     products = await Product.updateOne(
         { _id: id },
         {
-            status: state == "active" ? "inactive" : "active"
+            status: state == "active" ? "inactive" : "active",
+            $push: {updateBy:updateBy}
         }
     )
     req.flash('info', 'Thay đổi trạng thái hoạt động thành công');
@@ -83,16 +104,19 @@ module.exports.changeStatus = async (req, res) => {
 module.exports.changeMultiStatus = async (req, res) => {
     const type = req.body.type
     const ids = req.body.ids.split(", ");
-    console.log(type, ids)
+    const updateBy = {
+        account_id:res.locals.user._id,
+        updateAt: new Date()
+    }
     switch (type) {
         case "active":
-            await Product.updateMany({ _id: { $in: ids } }, { status: "active" })
+            await Product.updateMany({ _id: { $in: ids } }, { status: "active", $push: {updateBy:updateBy} })
             break;
         case "inactive":
-            await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" })
+            await Product.updateMany({ _id: { $in: ids } }, { status: "inactive", $push: {updateBy:updateBy} })
             break;
         case "delete":
-            await Product.updateMany({ _id: { $in: ids } }, { deleted: true })
+            await Product.updateMany({ _id: { $in: ids } }, { deleted: true, $push: {updateBy:updateBy} })
             break;
         case "change-position":
             for(let item of ids){
@@ -100,7 +124,8 @@ module.exports.changeMultiStatus = async (req, res) => {
                 await Product.updateOne(
                     {_id:id},
                     {
-                        position:parseInt(position)
+                        position:parseInt(position),
+                        $push: {updateBy:updateBy}
                     }
                 )
             }   
@@ -132,6 +157,10 @@ module.exports.createProduct = async (req,res) =>{
     try {
         let data = req.body
         data.id  = await Product.countDocuments()
+        data.createdBy = {
+            account_id:res.locals.user._id
+        }
+        console.log(data)
         const product =  new Product({
             id: data.id,
             title: data.title,
@@ -140,13 +169,14 @@ module.exports.createProduct = async (req,res) =>{
             category: data.category,
             image: data.image,
             rating:{
-                rate:parseFloat(data.rating),
+                rate: 1.1,
                 count:parseInt(data.quantity)
             },
             status:"active",
             des:"abc",
             deleted:false,
-            position:data.id+1
+            position:data.id+1,
+            createdBy:data.createdBy
         })
         const result = await product.save()
     } catch (error) {
@@ -167,11 +197,21 @@ module.exports.edit = async(req,res) => {
 
 module.exports.editProduct = async(req,res) => {
     const id = req.params.id
-    req.body.image= `/admin/uploads/${req.file.filename}`
+    console.log(req.body)
+    
+    const updateBy = {
+        account_id:res.locals.user._id,
+        updateAt: new Date()
+    }
+
     await Product.updateOne(
         {_id:id},
-        req.body
+        {
+            ...req.body,
+            $push:{updateBy:updateBy}
+        }
     )
+    
     res.redirect("/admin/product")
 }
 

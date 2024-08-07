@@ -3,6 +3,15 @@ include ../../mixins/button.pug
 
 block main 
     h1 Trang phân nhóm quyền
+    - if(messages.success)
+                .message.success
+                    div(
+                        class="alert alert-success"
+                        role="alert"
+                        show-alert 
+                        data-time="5000"
+                    )
+                        span= messages.success
     .text-left 
             button(
                 type="submit"

@@ -1,8 +1,8 @@
 extends ../../layout/default.pug
 block main 
-    H1 Cập nhật tài khoản
+    H1 Chỉnh sửa thông tin
     form(
-        action=`${prefixAdmin}/account/edit/${data._id}/?_method=PATCH`
+        action=`${prefixAdmin}/my-account/edit/?_method=PATCH`
         method="POST"
         enctype="multipart/form-data"
     )
@@ -45,13 +45,6 @@ block main
                 class="btn btn-danger hidden-button"
                 id="button-remove-img"
             ) Xóa ảnh
-        .form-group 
-            label(for="role_id") Phân quyền 
-            select(name="role" class="form-control") 
-                option(disable) -- Chọn --
-                each item in role1 
-                    option(value=item._id selected = data.role.id == item._id) #{item.title}
-                
         div(
             class="form-check form-check-inline"
         )  

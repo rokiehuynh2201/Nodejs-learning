@@ -24,18 +24,18 @@ module.exports.create = async(req,res) => {
     const role = await Role.find(find)
     res.render("admin/pages/account/create.pug",{
         pageTitle:"Tạo tài khoản",
-        role:role
+        role1:role
     })
 }
 
 module.exports.createPost = async(req,res) => {
     req.body.password = md5(req.body.password)
-    req.body.role     = new Object("id","title")
-    req.body.role.id  = req.body.role_id
+    req.body.role = {
+        id:req.body.role,
+    }
     const role = await Role.findOne({_id:req.body.role.id})
     req.body.role.title  = role.title
     const account = new Account(req.body)
-    console.log(account)
     await account.save()
     res.redirect("/admin/account")
 }
@@ -47,17 +47,21 @@ module.exports.edit = async(req,res) => {
     res.render("admin/pages/account/edit.pug",{
         pageTitle:"Cập nhật thông tin",
         data:record,
-        role:role
+        role1:role
     })
 }
 
 module.exports.editPatch = async(req,res) => {
     const id = req.params.id
-    req.body.role     = new Object("id","title")
-    req.body.role.id  = req.body.role_id
+    req.body.role = {
+        id:req.body.role,
+    }
     const role = await Role.findOne({_id:req.body.role.id})
     req.body.role.title  = role.title
-    console.log(req.body)
-    res.send("OK")
+    await Account.updateOne(
+        {_id:id},
+        req.body
+    )
+    res.redirect("/admin/account")
 }
 

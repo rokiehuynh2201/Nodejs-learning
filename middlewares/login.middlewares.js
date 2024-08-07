@@ -1,4 +1,5 @@
 const User = require("../model/account.model")
+const Role = require("../model/role.model")
 
 module.exports.requireAuth  = async (req,res,next) => {
     if(!req.cookies.token){
@@ -11,7 +12,8 @@ module.exports.requireAuth  = async (req,res,next) => {
         }
         else{
             res.locals.user = user
-            res.locals.role = user.role
+            const role = await Role.findOne({_id:user.role.id})
+            res.locals.role = role.permissions
             next() 
         }
     }

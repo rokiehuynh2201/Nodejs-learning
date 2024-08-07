@@ -25,7 +25,10 @@ router.patch("/delete-product/:id",controller.deleteProduct)
 
 router.get("/edit/:id",controller.edit)
 
-router.patch("/edit/:id",upload.single("uploaded_file"),controller.editProduct)
+router.patch("/edit/:id",
+            upload.single("uploaded_file"),
+            uploadCloud.uploadCloud,
+            controller.editProduct)
 
 router.get("/detail/:id",controller.detailProduct)
 

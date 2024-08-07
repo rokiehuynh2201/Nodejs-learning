@@ -6,7 +6,7 @@ const role              =   require("./role.route")
 const account           =   require("./account.route")
 const auth              =   require("./auth.route")
 const requireAuth       =   require("../../middlewares/login.middlewares")
-
+const myAccount         =   require("./my-account.route")
 
 module.exports = (app) =>{
     app.use(`${pathAdmin.prefixAdmin}/dashboard`,
@@ -17,5 +17,6 @@ module.exports = (app) =>{
     app.use(`${pathAdmin.prefixAdmin}/roles`,requireAuth.requireAuth,role)
     app.use(`${pathAdmin.prefixAdmin}/account`,requireAuth.requireAuth,account)
     app.use(`${pathAdmin.prefixAdmin}/auth`,auth)
+    app.use(`${pathAdmin.prefixAdmin}/my-account`,requireAuth.requireAuth,myAccount)
     
 }

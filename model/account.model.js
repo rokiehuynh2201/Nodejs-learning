@@ -1,17 +1,6 @@
 const mongoose = require("mongoose")
 const generate = require("../helper/helper.js")
 
-const roleSchema = new mongoose.Schema({
-    id:{
-        type:String,
-        default:""
-    },
-    title:{
-        type:String,
-        default:""
-    }
-})
-
 const AccoutSchema = new mongoose.Schema({
     name:String,
     email:String,
@@ -24,8 +13,14 @@ const AccoutSchema = new mongoose.Schema({
     image:String,
     status:String,
     role:{
-        type:roleSchema,
-        default: () => ({ id: "", title: "" })
+        id:{
+            type:String,
+            default:""
+        },
+        title:{
+            type:String,
+            default:""
+        }
     },
     deleted:{
         type:Boolean,

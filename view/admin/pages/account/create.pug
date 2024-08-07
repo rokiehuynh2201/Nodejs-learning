@@ -52,9 +52,9 @@ block main
             ) Xóa ảnh
         .form-group 
             label(for="role_id") Phân quyền 
-            select(name="role_id" class="form-control") 
+            select(name="role" class="form-control") 
                 option(disable) -- Chọn --
-                each item in role 
+                each item in role
                     option(value=item._id) #{item.title}
                 
         div(

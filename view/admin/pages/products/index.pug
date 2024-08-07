@@ -39,11 +39,12 @@ block main
                 .col-6 
                     +form-change-multi(`${prefixAdmin}/product/change-status-multi?_method=PATCH`)
                 .col-6.d-flex.align-items-center 
-                    a(
-                        class="btn btn-outline-success"
-                        href=`${prefixAdmin}/product/create`
-                        role="button"
-                    ) Thêm mới
+                    if(role.includes("product_create"))
+                        a(
+                            class="btn btn-outline-success"
+                            href=`${prefixAdmin}/product/create`
+                            role="button"
+                        ) Thêm mới
     .card.mb-3 
         .card-header Sắp xếp 
         .card-body 
@@ -71,6 +72,8 @@ block main
                         th Tiêu đề
                         th Giá
                         th Thứ tự
+                        th Người tạo
+                        th Người sửa đổi
                         th Tình Trạng
                         th Hành động
                 tbody  
@@ -92,6 +95,16 @@ block main
                                         min="1"
                                         name=position
                                     )
+                                td 
+                                    b #{item.fullName} 
+                                    br
+                                    span #{moment(item.createdBy.CreateAt).format('MMMM Do YYYY, h:mm:ss a')}
+                                td 
+                                    - const updateAt = item.updateBy.slice(-1)[0]
+                                    b #{item.userUpdate} 
+                                    br
+                                    if(updateAt) 
+                                        span #{moment(updateAt.updateAt).format('MMMM Do YYYY, h:mm:ss a')}
                                 td 
                                     if item.status == "active"
                                         +button("badge-success","Hoạt động","active",item._id)
