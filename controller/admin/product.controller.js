@@ -75,7 +75,7 @@ module.exports.changeStatus = async (req, res) => {
             status: state == "active" ? "inactive" : "active"
         }
     )
-    req.flash('info', 'Flash Message Added');
+    req.flash('info', 'Thay đổi trạng thái hoạt động thành công');
     res.redirect("back")
 }
 

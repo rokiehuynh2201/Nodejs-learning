@@ -1,0 +1,78 @@
+extends ../../layout/default.pug
+block main 
+    H1 Trang tạo tài khoản
+    form(
+        action=`${prefixAdmin}/account/create`
+        method="POST"
+        enctype="multipart/form-data"
+    )
+        .form-group 
+            label(for="name")  Họ tên
+            input(
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                )
+        .form-group 
+            label(for="email")  Email
+            input(
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+            )
+        .form-group 
+            label(for="password")  Mật khẩu
+            input(
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                )
+        .form-group 
+            label(for="phone")  Số điện thoại
+            input(
+                type="text"
+                class="form-control"
+                id="phone"
+                name="phone"
+                )
+        .form-group
+            label(for="image") Avatar
+            input(type="file" class="form-control-file" id="image" name="uploaded_file")     
+            img(
+                id="ImgPreview"
+                src=""
+                alt="Your Image"
+            )
+            button(
+                class="btn btn-danger hidden-button"
+                id="button-remove-img"
+            ) Xóa ảnh
+        .form-group 
+            label(for="role_id") Phân quyền 
+            select(name="role_id" class="form-control") 
+                option(disable) -- Chọn --
+                each item in role 
+                    option(value=item._id) #{item.title}
+                
+        div(
+            class="form-check form-check-inline"
+        )  
+            input(
+                class="form-check-input" type="radio" name="status" id="inlineRadio1" value="active"
+                checked
+            )
+            label(for="inlineRadio1" class="form-check-label" ) hoạt động
+        div(
+            class="form-check form-check-inline"
+        )  
+            input(
+                class="form-check-input" type="radio" name="status" id="inlineRadio1" value="active"
+            )
+            label(for="inlineRadio1" class="form-check-label" ) Dừng hoạt động
+        .form-group 
+            button(
+                class="btn btn-primary"
+            ) Gửi

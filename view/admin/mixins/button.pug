@@ -45,4 +45,7 @@ mixin select-tree(category,level = 1,parent_id= "")
             if item.children && item.children.length > 0
                 +select-tree(item.children,level+1,parent_id)
 
-
+mixin author-check(items,name)
+    each item in items
+         td(class="text-center")
+            input(type="checkbox" checked = (item.permissions.includes(name)) )

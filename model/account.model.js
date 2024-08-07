@@ -1,18 +1,32 @@
 const mongoose = require("mongoose")
 const generate = require("../helper/helper.js")
 
+const roleSchema = new mongoose.Schema({
+    id:{
+        type:String,
+        default:""
+    },
+    title:{
+        type:String,
+        default:""
+    }
+})
+
 const AccoutSchema = new mongoose.Schema({
-    fullName:String,
+    name:String,
     email:String,
     password:String,
     token:{
         type:String,
-        token:generate(20)
+        default:generate(20)
     },
     phone:String,
-    avatar:String,
+    image:String,
     status:String,
-    role_id:String,
+    role:{
+        type:roleSchema,
+        default: () => ({ id: "", title: "" })
+    },
     deleted:{
         type:Boolean,
         default:false
@@ -22,4 +36,5 @@ const AccoutSchema = new mongoose.Schema({
     timestamps:true
 })
 
-export default Accout = mongoose.model("Account",AccoutSchema,"account")
+const Accout = mongoose.model("Account",AccoutSchema,"account")
+module.exports = Accout

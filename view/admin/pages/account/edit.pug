@@ -1,0 +1,74 @@
+extends ../../layout/default.pug
+block main 
+    H1 Cập nhật tài khoản
+    form(
+        action=`${prefixAdmin}/account/edit/${data._id}/?_method=PATCH`
+        method="POST"
+        enctype="multipart/form-data"
+    )
+        .form-group 
+            label(for="name")  Họ tên
+            input(
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                value=data.name
+                )
+        .form-group 
+            label(for="email")  Email
+            input(
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                value=data.email
+            )
+        .form-group 
+            label(for="phone")  Số điện thoại
+            input(
+                type="text"
+                class="form-control"
+                id="phone"
+                name="phone"
+                value=data.phone
+                )
+        .form-group
+            label(for="image") Avatar
+            input(type="file" class="form-control-file" id="image" name="uploaded_file")     
+            img(
+                id="ImgPreview"
+                src=data.image
+                alt="Your Image"
+            )
+            button(
+                class="btn btn-danger hidden-button"
+                id="button-remove-img"
+            ) Xóa ảnh
+        .form-group 
+            label(for="role_id") Phân quyền 
+            select(name="role_id" class="form-control") 
+                option(disable) -- Chọn --
+                each item in role 
+                    option(value=item._id selected = data.role.id == item._id) #{item.title}
+                
+        div(
+            class="form-check form-check-inline"
+        )  
+            input(
+                class="form-check-input" type="radio" name="status" id="inlineRadio1" value="active"
+                checked = data.status == "active"
+            )
+            label(for="inlineRadio1" class="form-check-label" ) hoạt động
+        div(
+            class="form-check form-check-inline"
+        )  
+            input(
+                class="form-check-input" type="radio" name="status" id="inlineRadio1" value="active"
+                checked = data.status == "inactive"
+            )
+            label(for="inlineRadio1" class="form-check-label" ) Dừng hoạt động
+        .form-group 
+            button(
+                class="btn btn-primary"
+            ) Gửi
