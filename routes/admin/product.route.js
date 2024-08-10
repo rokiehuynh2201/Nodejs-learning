@@ -7,6 +7,7 @@ const upload = multer()
 const validate = require("../../validate/admin/product.validate")
 const uploadCloud = require("../../middlewares/upload.middleware")
 
+router.use(express.json())
 router.get("/",controller.index)
 
 router.get("/create",controller.create)
@@ -18,6 +19,8 @@ router.post("/create",
     controller.createProduct)
 
 router.patch("/change-status/:status/:id",controller.changeStatus)
+
+router.patch("/change-status",controller.changeStatus)
 
 router.patch("/change-status-multi",controller.changeMultiStatus)
 

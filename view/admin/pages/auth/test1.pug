@@ -1,0 +1,90 @@
+extends ../../layout/test.pug
+block style 
+    link(rel="stylesheet", href="/admin/css/tableProduct.css")
+block main
+    main(
+        id="swup"
+        class="transition-slide"
+    )   
+        .welcome-container
+            .info
+                img(src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqmA_K0xJxXq6VQFwJBXUmtFAvvoJJBmxYZg&s")
+                h2 Welcome to Huỳnh Gia Bảo Project
+            .add-new 
+                .share.box-same 
+                    <i class="fa-solid fa-user-plus"></i>
+                    span Share 
+                .create.box-same  
+                    <i class="fa-solid fa-square-plus"></i>
+                    span.button Create 
+        .menu-container 
+            ul.menu 
+                li.activeChoice View all
+                li Most recent 
+                li Popular
+                li.lastchild
+        .function 
+            .filter 
+                <i class="fa-solid fa-filter"></i>
+                span Filter 
+            ul.list-view 
+                li 
+                    .common 
+                        a(href="#") View all
+                li 
+                    .status-active
+                        a(href="#") Active
+                li        
+                    .status-inactive 
+                        a(href="#") Inactive
+        .card 
+            .card-header
+                .card-header_content 
+                    h5 All products 
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+            .card-body
+                .board 
+                    table(width="100%")
+                        thead 
+                            tr 
+                                td ID
+                                td Name 
+                                td Price 
+                                td Creater 
+                                td Latest Edit 
+                                td Status 
+                                td 
+                                td 
+                                    input(type="checkbox", name="")
+                        tbody
+                            each item,index in product 
+                                tr 
+                                    td #{item.position}
+                                    td  
+                                        .product 
+                                            img(src=item.image alt="")
+                                            .product-de 
+                                                h5 #{item.title}
+                                    td.price 
+                                        span #{item.price}
+                                    td.creator 
+                                        h5.creator-name Huỳnh Gia Bảo
+                                        span.date  August 7th 2024, 3:24:34 pm
+                                    td.editor
+                                        h5.creator-name Huỳnh Gia Bảo
+                                        span.date  August 7th 2024, 8:57:48 pm
+                                    td.status 
+                                        span(
+                                            class=item.status === 'active' ? 'active' : 'inactive' 
+                                            status-value = item.status === 'active' ? 'active' : 'inactive'
+                                            status-id = item._id
+                                        ) #{item.status}
+                                    td.edit
+                                        a(href="#") Edit 
+                                        a(href="#") View 
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    td 
+                                        input(type="checkbox", name="")
+    script(src="/admin/script/productAction.js") 
+
+                        

@@ -69,8 +69,6 @@ module.exports.index = async (req, res) => {
         }
     }
 
-
-
     res.render("admin/pages/products/index.pug", {
         pageTitle: "Trang sản phẩm",
         product: products,
@@ -80,25 +78,31 @@ module.exports.index = async (req, res) => {
     })
 }
 
+
 module.exports.changeStatus = async (req, res) => {
-    let id = req.params.id
-    let state = req.params.status
-    
+    const {id,value} = req.body
+    // let id = req.params.id
+    // let state = req.params.status
+
+    console.log(id)
     const updateBy = {
         account_id:res.locals.user._id,
         updateAt: new Date()
     }
 
-    products = await Product.updateOne(
-        { _id: id },
-        {
-            status: state == "active" ? "inactive" : "active",
-            $push: {updateBy:updateBy}
-        }
-    )
-    req.flash('info', 'Thay đổi trạng thái hoạt động thành công');
-    res.redirect("back")
+    console.log(updateBy)
+    // products = await Product.updateOne(
+    //     { _id: id },
+    //     {
+    //         status: state == "active" ? "inactive" : "active",
+    //         $push: {updateBy:updateBy}
+    //     }
+    // )
+
+    // req.flash('info', 'Thay đổi trạng thái hoạt động thành công');
+    // res.redirect("back")
 }
+
 
 
 module.exports.changeMultiStatus = async (req, res) => {

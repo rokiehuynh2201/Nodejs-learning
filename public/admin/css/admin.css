@@ -1,0 +1,87 @@
+
+:root{
+    --text-color:#000;
+    --panel-color:#fff;
+}
+
+body.dark{
+    --text-color:#fff
+}
+
+.over-view .title {
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+    margin-top: 30px;
+    color: var(--text-color);
+}
+
+.over-view .title .text{
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 15px;
+}
+
+.over-view .boxes{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 10px;
+    flex-wrap: wrap;
+}   
+
+.over-view .boxes .box{
+    padding: 25px 25px;
+    display: flex;
+    flex-direction: column;
+    border-radius:12px ;
+    text-align: center;
+    width: calc(100%/4 - 15px);
+    background-color: var(--panel-color);
+    color: var(--text-color);
+}
+
+.over-view .boxes .box .text{
+    white-space: nowrap;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.activity-data{
+    display: flex;
+    justify-content: space-between;
+}
+
+.activity-data .data{
+    width: calc(100%/5 - 15px);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: var(--text-color);
+}
+.activity-data .data .data-title{
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.activity-data .data .data-list{
+    margin-top: 5px;
+}
+
+
+@media (max-width:600px){
+    .over-view .boxes .box{
+        width: calc(100% / 2 - 15px);
+        margin-top: 15px;
+    }
+}
+
+@media (max-width:300px){
+    .over-view .boxes .box{
+        width: 100%;
+        margin-top: 15px;
+    }
+}
+
+
+

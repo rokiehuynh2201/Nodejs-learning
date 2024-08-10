@@ -1,0 +1,14 @@
+mixin sub-menu(items,level = 0)
+    ul(
+        class="dropdown-menu"
+    )
+        each item,index in items
+            if(item.children && item.children.length > 0)
+                li(class="nav-item dropend") 
+                    a(class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false") #{item.title} 
+                    +sub-menu(item.children,level+1)
+                    if(index != items.length -1)
+                        <li><hr class="dropdown-divider"></li>  
+            else 
+                li 
+                    a(class="dropdown-item" href="#") #{item.title}

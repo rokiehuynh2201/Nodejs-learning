@@ -1,17 +1,57 @@
-header.header 
-    .container 
-        .row.align-items-center 
-            .col-3 
-                .inner-logo 
-                    a(href="/") 
-                        img(src="/image/logo.png", alt="Logo")
-            .col-9 
-                .inner-menu 
-                    ul 
-                        li 
-                            a(href="/") Trang chủ
-                        li  
-                            a(href="/products") Sản phẩm
-                    
-
-    
+include ../mixins/submenu.pug
+header.header
+        //- .row.align-items-center 
+        //-     .col-3 
+        //-         .inner-logo 
+        //-             a(href="/") 
+        //-                 img(src="/image/logo.png", alt="Logo")
+        //-     .col-9 
+        //-         .inner-menu 
+        //-             ul 
+        //-                 li 
+        //-                     a(href="/") Trang chủ
+        //-                 li(
+        //-                     class="nav-item dropdown"
+        //-                 )  
+        //-                     a(   
+        //-                         class="dropdown-toggle" 
+        //-                         class="btn btn-success dropdown-toggle"
+        //-                         id="navbarDropdownMenuLink" 
+        //-                         data-toggle="dropdown" 
+        //-                         aria-haspopup="true" 
+        //-                         aria-expanded="false"
+        //-                     ) Sản phẩm
+        //-                         +sub-menu(tree,0)
+        //- .row 
+        //-     nav(class="navbar navbar-expand-md ")
+        //-         div(class="collapse navbar-collapse" id="navbarNavDropdown")
+        //-             ul(class="navbar-nav")
+        //-                 li(class="dropdown")
+        //-                     a(class="nav-link dropdown-toggle btn btn-info" id="navbarDropdownMenuLink"  data-toggle="dropdown") Sản phẩm
+        //-                     +sub-menu(tree,0)
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: salmon;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Sản phẩm </a>
+                        +sub-menu(tree)
+                    </li>   
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+                </div>
+            </div>
+        </nav>

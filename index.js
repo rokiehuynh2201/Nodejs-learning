@@ -13,7 +13,6 @@ const db                =   require("./config/database.js")
 const path              =   require('path');
 const moment            =   require('moment'); 
 
-
 require('dotenv').config();
 
 app.use(cors());

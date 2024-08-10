@@ -9,33 +9,32 @@ block main
                         data-time="5000"
                     )
                         span= messages.error
-    .container.my-5 
-        .row.justify-content-center
-            .col-4 
-                h1(class="text-center") Đăng nhập 
-                form(
-                    action=`${prefixAdmin}/auth/login`
-                    method="POST"
-                )
-                    .form-group 
-                        label(for="email") Email 
-                        input(
-                                type="email"
-                                class="form-control"
-                                id="email"
-                                name="email"
-                                require
-                            ) 
-                    .form-group 
-                        label(for="password") Mật khẩu 
-                        input(
-                                type="password"
-                                class="form-control"
-                                id="password"
-                                name="password"
-                                require
-                            ) 
-                    .form-group 
-                        button(
-                            class="btn btn-primary form-control"
-                        ) Gửi
+    .login-wrapper
+        h1 Login
+        form(
+            action=`${prefixAdmin}/auth/login`
+            method="POST"
+        )
+            .input-field 
+                <input type="text" name="email" required="" style="color:white;">
+                <label>User name</label>
+            .input-field 
+                <input type="password" name="password" required=""style="color:white;">
+                <label>Password</label>
+            .password-option 
+                label 
+                    input(type="checkbox")
+                    p Remember me
+                a(href="#") Forgot password
+            <button class="custom-btn btn-5"><span>Login</span></button>
+            .account-option
+                p Don't have an account ?
+                    a(href="#")  Register
+            .social 
+                ul 
+                    li 
+                        <i class="fa-brands fa-facebook"></i>
+                    li 
+                        <i class="fa-brands fa-google"></i>
+                    li 
+                        <i class="fa-brands fa-twitter"></i>   
