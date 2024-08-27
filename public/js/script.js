@@ -14,6 +14,7 @@ if(buttonStatus.length>1){
     })
 }
 
+
 const formSearch = document.querySelector("#form-search")
 if(formSearch){
     let url = new URL(window.location.href)
@@ -30,6 +31,7 @@ if(formSearch){
         window.location.href = url.href;
     })
 }
+
 
 const pagination = document.querySelectorAll(".page-link")
 if(pagination){

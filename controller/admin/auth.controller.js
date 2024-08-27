@@ -1,6 +1,8 @@
 const md5 = require("md5")
 const User = require("../../model/account.model")
 const Product = require("../../model/products.model")
+const buttonFilterStatus = require("../../helper/button-status")
+
 module.exports.login =  async (req,res) => {
     res.render("admin/pages/auth/index.pug",{
         pageTitle:"Đăng nhập"
@@ -43,9 +45,31 @@ module.exports.test = (req,res) => {
 }
 
 module.exports.test1 = async (req,res) => {
-    const product = await Product.find({})
+    let find = {
+        deleted: false
+    }
+    buttonFilterStatus.forEach(button => button.class="")
+    if(req.query.status){
+        find.status = req.query.status
+        let idx = buttonFilterStatus.findIndex(item => item.status === req.query.status)
+        buttonFilterStatus[idx].class = "common"
+    }
+    else{
+        buttonFilterStatus[0].class = "common"
+    }
+
+    let keyword = ""
+    if (req.query.keyword) {
+        keyword = req.query.keyword
+        find.title = new RegExp(keyword, "i")
+    }
+
+    const product = await Product.find(find)
+    
     res.render("admin/pages/auth/test1.pug",{
-        pageTitle:"Thử nghiệm",
-        product:product
+        pageTitle:"Product",
+        product:product,
+        buttonStatus:buttonFilterStatus
     })
 }
+

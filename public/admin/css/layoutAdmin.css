@@ -98,9 +98,11 @@ nav .menu-items{
     list-style: none;
     margin-top: 5px;
 }
+
 .menu-items ul.nav-links li:not(:last-child) {
     border-bottom: 2px solid var(--text-divider); 
 }
+
 .menu-items .nav-links li:hover{
     background-color: var(--text-hover);
     border-radius: 25px;
@@ -109,7 +111,7 @@ nav .menu-items{
 .active{
     background-color: var(--text-hover);
     border-radius: 15px;
-    border-bottom: 0 !important;
+    border-bottom: 0 ;
 }
 
 .menu-items li a{
@@ -152,7 +154,7 @@ nav .menu-items{
 
 nav.close li a .link-name{
     opacity: 0;
-    pointer-events: none;
+    /* pointer-events: none; */
 }
 
 .nav-links li a:hover i,
@@ -160,11 +162,11 @@ nav.close li a .link-name{
     color: var(--text-light-hover);
 }   
 
-
 section.dashboard .top{
     position: fixed;
     z-index: 999;
 }
+
 section.dashboard .top .mode{
     display: flex;
     align-items: center;
@@ -180,6 +182,7 @@ section.dashboard .top .mode-toggle{
     justify-content: center;
     cursor: pointer;
 }
+
 .top .mode-toggle .switch{
     position: relative;
     height: 22px;
@@ -216,6 +219,7 @@ section.dashboard .top .mode-toggle{
     display: flex;
     position: relative;
 }
+
 body.dark .top .switch::before{
     left: 20px;
 }
@@ -317,17 +321,14 @@ nav.close ~ .dashboard .top{
     .dashboard .top .search-box{
         max-width: 130px;
     }
-
     nav{
         width: 73px;
     }
     nav .logo-name .logo_name{
         opacity: 0;
-        pointer-events: none;
     }
     nav li a .link-name{
         opacity: 0;
-        pointer-events: none;
     }
     nav ~ .dashboard{
         left: 73px;

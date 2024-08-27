@@ -19,9 +19,11 @@ module.exports.index = async (req, res) => {
             class: ""
         }
     ]
+    
     let find = {
         deleted: false
     }
+
     if (req.query.price) {
         find.price = Number(req.query.price) == 100 ? { $gt: Number(req.query.price) } : { $lt: Number(req.query.price) }
         let idx = filterStatus.findIndex(item => item.status === req.query.price)
@@ -35,6 +37,7 @@ module.exports.index = async (req, res) => {
         keyword = req.query.keyword
         find.title = new RegExp(keyword, "i")
     }
+
     const productNum = await Product.find(find).count()
     let paging = {
         productInPage: 4,
@@ -78,32 +81,25 @@ module.exports.index = async (req, res) => {
     })
 }
 
-
+// Ok
 module.exports.changeStatus = async (req, res) => {
-    const {id,value} = req.body
-    // let id = req.params.id
-    // let state = req.params.status
-
-    console.log(id)
+    const {id,status} = req.body
     const updateBy = {
         account_id:res.locals.user._id,
         updateAt: new Date()
     }
-
-    console.log(updateBy)
-    // products = await Product.updateOne(
-    //     { _id: id },
-    //     {
-    //         status: state == "active" ? "inactive" : "active",
-    //         $push: {updateBy:updateBy}
-    //     }
-    // )
-
-    // req.flash('info', 'Thay đổi trạng thái hoạt động thành công');
-    // res.redirect("back")
+    products = await Product.updateOne(
+        { _id: id },
+        {
+            status: status == "active" ? "inactive" : "active",
+            $push: {updateBy:updateBy}
+        }
+    )
+    res.json({
+        status:200,
+        message:"Ok"
+    })
 }
-
-
 
 module.exports.changeMultiStatus = async (req, res) => {
     const type = req.body.type
@@ -227,4 +223,5 @@ module.exports.detailProduct = async(req,res) => {
         record:record
     })
 }
+
 

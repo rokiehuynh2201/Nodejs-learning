@@ -1,0 +1,105 @@
+extends ../../layout/test.pug
+block style 
+    link(rel="stylesheet", href="/admin/css/chat.css")
+block main
+    .chat-content-wrapper
+        .content-sidebar 
+            .content-sidebar-title Chat 
+            form(action="" class="content-sidebar-form")
+                <i class="fa-solid fa-magnifying-glass"></i>
+                input(type="search" class="content-sidebar-input" placeholder="Search ...")
+            .content-messages
+                ul.content-messages-list
+                    li.content-messages-title 
+                        span Recently
+                    li 
+                        a(href="#") 
+                            img(src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqZDONyImNbnxJaUz1xjSTcZRuYTYd_Tnfvg&s" alt="Ảnh người dùng")
+                            span.content-message-info 
+                                span.content-messages-name Mai Đức Trung 
+                                span.content-messages-text Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            span.content-message-desc 
+                                span.content-messages-unread 5
+                                span.content-messages-time 12:30
+                    li 
+                        a(href="#") 
+                            img(src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqZDONyImNbnxJaUz1xjSTcZRuYTYd_Tnfvg&s" alt="Ảnh người dùng")
+                            span.content-message-info 
+                                span.content-messages-name Mai Đức Trung 
+                                span.content-messages-text Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                            span.content-message-desc 
+                                span.content-messages-unread 5
+                                span.content-messages-time 12:30
+                    li 
+                        a(href="#") 
+                            img(src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqZDONyImNbnxJaUz1xjSTcZRuYTYd_Tnfvg&s" alt="Ảnh người dùng")
+                            span.content-message-info 
+                                span.content-messages-name Mai Đức Trung 
+                                span.content-messages-text Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            span.content-message-desc 
+                                span.content-messages-unread 5
+                                span.content-messages-time 12:30
+            
+        .conversation
+            .conversation-top
+                .conversation-user
+                    img(class="conversation-user-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqZDONyImNbnxJaUz1xjSTcZRuYTYd_Tnfvg&s" Atl="Ảnh người dùng")
+                    div 
+                        .conversation-user-name #{user.name} 
+                        .conversation-user-status Online
+                .conversation-buttons 
+                    button.button
+                        <i class="fa-solid fa-phone"></i>
+                    button.button
+                        <i class="fa-solid fa-video"></i>   
+                    button.button
+                        <i class="fa-solid fa-exclamation"></i>
+            .conversation-main 
+                ul(class="conversation-wrapper" my-id=user._id)
+                    .conversation-divider 
+                        span Today 
+                    each message in messages
+                        li(class=`conversation-item ${user._id == message.user_id ? "" : "me"}`)
+                            if(user._id != message.user_id) 
+                                .conversation-item-side
+                                    img(class="conversation-item-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqZDONyImNbnxJaUz1xjSTcZRuYTYd_Tnfvg&s" Atl="Ảnh người dùng")
+                            .conversation-item-content
+                                .conversation-item-wrapper
+                                    .conversation-item-box 
+                                        .conversation-item-text 
+                                            p #{message.content}
+                                            .conversation-item-time 12:30
+                                        .conversation-item-dropdown
+                                            button.conversation-item-dropdown-toggle
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                                            ul.conversation-item-dropdown-list
+                                                li
+                                                    a
+                                                        <i class="fa-solid fa-reply-all"></i>  Forward 
+                                                li
+                                                    a
+                                                        <i class="fa-solid fa-trash"></i>  Delete
+                                if(message.images)
+                                    .message-image
+                                        each image in message.images
+                                            img(src=image, alt="")
+            .custom-file-container(data-upload-id='my-unique-id')
+            .conversation-form  
+                label(for="file-upload-with-preview-my-unique-id" ) 
+                    <i class="fa-solid fa-image"></i>
+                emoji-picker(class="tooltip light" role="tooltip") 
+                button.conversation-form-button
+                    <i class="fa-solid fa-face-smile"></i>
+                form(type="submit").conversation-form-input-wrapper
+                    textarea(
+                        class="conversation-form-input"
+                        placeholder="Aa..."
+                        name="content"
+                    )
+            
+
+    script(src="/socket.io/socket.io.js")
+
+    script(src="/admin/script/SocketIO.js")
+
+    script(type="module" src="/admin/script/chat.js")

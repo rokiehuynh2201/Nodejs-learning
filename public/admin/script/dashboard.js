@@ -19,6 +19,7 @@ modeToggle.addEventListener("click",() => {
     }
 })
 
+
 let sideBar = localStorage.getItem("sidebar");
 if(sideBar && sideBar === "close"){
     nav.classList.toggle("close")
@@ -34,14 +35,25 @@ sidebarToggle.addEventListener("click",()=>{
     }
 })
 
+// const indexActive = localStorage.getItem("status")
 
 const items = document.querySelectorAll('.nav-links li');
-items.forEach(item => {
+
+// if(indexActive){
+//     items[indexActive].classList.add("active")
+// }
+// else{
+//     items[0].classList.add("active")
+// }
+
+items.forEach((item,index) => {
     item.addEventListener('click', () => {
         // Remove 'active' class from all items
         items.forEach(el => el.classList.remove('active'));
 
         // Add 'active' class to the clicked item
         item.classList.add('active');
+        // localStorage.setItem("status",index)
     });
 });
+

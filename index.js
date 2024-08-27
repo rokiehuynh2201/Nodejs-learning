@@ -12,6 +12,9 @@ const adminRoute        =   require("./routes/admin/index.route.js")
 const db                =   require("./config/database.js")
 const path              =   require('path');
 const moment            =   require('moment'); 
+const http              =   require('http');
+const { Server }        =   require("socket.io");
+
 
 require('dotenv').config();
 
@@ -32,12 +35,28 @@ app.set('views', `${__dirname}/view`);
 app.locals.prefixAdmin = systemConfig.prefixAdmin
 app.locals.moment = moment
 
-console.log(__dirname)
+// SocketIO
+
+const server  =   http.createServer(app);
+
+const io      =   new Server(server,{
+    cookie: {
+        name: "my-cookie",
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 86400
+    }
+});
+
+global._io = io
+
+// End SocketIO
+
 
 route(app);
 adminRoute(app)
 
-app.listen(port,()=>{
+server.listen(port,()=>{
     console.log(`App listen on ${port}`);
 })
 
