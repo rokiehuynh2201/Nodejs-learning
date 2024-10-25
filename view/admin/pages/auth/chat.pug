@@ -1,6 +1,11 @@
 extends ../../layout/test.pug
 block style 
+    link(  rel="stylesheet"
+            type="text/css"
+            href="https://unpkg.com/file-upload-with-preview/dist/style.css"
+        )
     link(rel="stylesheet", href="/admin/css/chat.css")
+    link(href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.css" rel="stylesheet")
 block main
     .chat-content-wrapper
         .content-sidebar 
@@ -85,9 +90,9 @@ block main
                                             img(src=image, alt="")
             .custom-file-container(data-upload-id='my-unique-id')
             .conversation-form  
-                label(for="file-upload-with-preview-my-unique-id" ) 
+                label(for="file-upload-with-preview-my-unique-id" class="conversation-form-button-image") 
                     <i class="fa-solid fa-image"></i>
-                emoji-picker(class="tooltip light" role="tooltip") 
+                
                 button.conversation-form-button
                     <i class="fa-solid fa-face-smile"></i>
                 form(type="submit").conversation-form-input-wrapper
@@ -97,9 +102,11 @@ block main
                         name="content"
                     )
             
-
     script(src="/socket.io/socket.io.js")
 
     script(src="/admin/script/SocketIO.js")
-
+    
     script(type="module" src="/admin/script/chat.js")
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js") 
+

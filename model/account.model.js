@@ -10,8 +10,20 @@ const AccoutSchema = new mongoose.Schema({
         default:generate(20)
     },
     phone:String,
+    studentID:String,
     image:String,
     status:String,
+    notification:Array,
+    requestFriend:Array,
+    acceptFriend:Array,
+    course:Array,
+    statusOnline:String,
+    friendList:[
+        {
+            id:String,
+            roomID:String
+        }
+    ],
     role:{
         id:{
             type:String,

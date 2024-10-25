@@ -1,57 +1,128 @@
 include ../mixins/submenu.pug
-header.header
-        //- .row.align-items-center 
-        //-     .col-3 
-        //-         .inner-logo 
-        //-             a(href="/") 
-        //-                 img(src="/image/logo.png", alt="Logo")
-        //-     .col-9 
-        //-         .inner-menu 
-        //-             ul 
-        //-                 li 
-        //-                     a(href="/") Trang chủ
-        //-                 li(
-        //-                     class="nav-item dropdown"
-        //-                 )  
-        //-                     a(   
-        //-                         class="dropdown-toggle" 
-        //-                         class="btn btn-success dropdown-toggle"
-        //-                         id="navbarDropdownMenuLink" 
-        //-                         data-toggle="dropdown" 
-        //-                         aria-haspopup="true" 
-        //-                         aria-expanded="false"
-        //-                     ) Sản phẩm
-        //-                         +sub-menu(tree,0)
-        //- .row 
-        //-     nav(class="navbar navbar-expand-md ")
-        //-         div(class="collapse navbar-collapse" id="navbarNavDropdown")
-        //-             ul(class="navbar-nav")
-        //-                 li(class="dropdown")
-        //-                     a(class="nav-link dropdown-toggle btn btn-info" id="navbarDropdownMenuLink"  data-toggle="dropdown") Sản phẩm
-        //-                     +sub-menu(tree,0)
-        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: salmon;">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Navbar</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Sản phẩm </a>
-                        +sub-menu(tree)
-                    </li>   
-                </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-light" type="submit">Search</button>
-                </form>
-                </div>
-            </div>
-        </nav>
+//- <nav class="navbar navbar-light p-0 border-bottom sticky-top">
+//-   div(class="container-fluid bg-light p-3 ps-5")
+//-     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+//-       <span class="navbar-toggler-icon"></span>
+//-     </button>
+//-     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+//-       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+//-         <li class="nav-item">
+//-           <a class="nav-link active" aria-current="page" href="#">Home</a>
+//-         </li>
+//-         <li class="nav-item">
+//-           <a class="nav-link" href="#">Link</a>
+//-         </li>
+//-         <li class="nav-item dropdown">
+//-           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+//-             Dropdown
+//-           </a>
+//-           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+//-             <li><a class="dropdown-item" href="#">Action</a></li>
+//-             <li><a class="dropdown-item" href="#">Another action</a></li>
+//-             <li><hr class="dropdown-divider"></li>
+//-             <li><a class="dropdown-item" href="#">Something else here</a></li>
+//-           </ul>
+//-         </li>
+//-         <li class="nav-item">
+//-           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+//-         </li>
+//-       </ul>
+//-       <form class="d-flex">
+//-         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+//-         <button class="btn btn-outline-success" type="submit">Search</button>
+//-       </form>
+//-     </div>
+    
+//-   </div>
+//- </nav>  
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-1 border-bottom sticky-top">
+  <div class="container-fluid">
+    .inner-image 
+      img(src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQrxoXD_DkqrpKQenFLW8FNbIkWoVFAaCLrg&s", alt="Ảnh logo")
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active text-primary" aria-current="page" href="#about-us">About us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#service">Services</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#team" tabindex="-1">Team</a>
+        </li>
+      </ul>
+    </div>
+     .register.ms-auto.p-1
+      <button type="button" class="btn btn-outline-primary btn-lg fs-6" data-bs-toggle="modal" data-bs-target="#login">Login</button>
+      <button type="button" class="btn btn-primary fs-6 btn-lg " data-bs-toggle="modal" data-bs-target="#register">Register</button>
+  </div>
+</nav>
+<div class="modal fade" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Đăng nhập</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        form(
+            action=`${prefixAdmin}/auth/login`
+            method="POST"
+          )
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password"  name="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="register" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Đăng kí</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body"> 
+        <form>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Nhập lại password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+   
+//- .inner-image 
+    //-   img(src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQrxoXD_DkqrpKQenFLW8FNbIkWoVFAaCLrg&s", alt="Ảnh logo")
+    //- .register.ms-auto.p-1
+    //-   <button type="button" class="btn btn-outline-primary fs-6" data-bs-toggle="modal" data-bs-target="#login">Login</button>
+    //-   <button type="button" class="btn btn-primary fs-6" data-bs-toggle="modal" data-bs-target="#register">Register</button>

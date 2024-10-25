@@ -4,9 +4,11 @@ const controller = require("../../controller/admin/auth.controller")
 
 router.get("/login",controller.login)
 
-router.get("/test",controller.test)
+router.get("/dashboard",controller.test)
 
-router.get("/test1",controller.test1)
+router.get("/product",controller.test1)
+
+router.get("/create-product",controller.test2)
 
 router.post("/login",controller.loginPost)
 

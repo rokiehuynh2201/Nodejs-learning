@@ -1,0 +1,192 @@
+extends ../../layout/chatLayout.pug
+block style 
+    link(   
+            rel="stylesheet"
+            type="text/css"
+            href="https://unpkg.com/file-upload-with-preview/dist/style.css"
+        )
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.css")
+block main
+    .flex
+        include ../../partial/sidebarChat.pug
+        include ../../partial/sideChat.pug
+                    
+        div(class="flex-grow h-screen sidebar-color p-3")
+            <div class="w-full h-full p-4 bg-white rounded-lg shadow-md flex flex-col justify-between">
+                <!-- Header with Avatar, Name, Status, and Icons -->
+                <div class="flex items-center justify-between border-b pb-4">
+                    <div class="flex items-center space-x-4">
+                        <!-- Avatar -->
+                        <div class="w-10 h-10">
+                            <img src="https://via.placeholder.com/40" alt="User Avatar" class="rounded-full">
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-semibold">Anil</h2>
+                            <p class="text-sm text-gray-500">Online - Last seen, 2.02pm</p>
+                        </div>
+                    </div>
+                    <!-- Call and Video Icons -->
+                    <div class="flex space-x-3 text-purple-500">
+                        <button class="p-2 rounded-full hover:bg-gray-100">
+                            <i class="fa-solid fa-phone"></i>
+                        </button>
+                        <button class="p-2 rounded-full hover:bg-gray-100">
+                            <i class="fa-solid fa-video"></i>
+                        </button>
+                        <button class="p-2 rounded-full hover:bg-gray-100">
+                            <i class="fa-solid fa-ellipsis-vertical w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+
+              
+                div(class="h-64  rounded-lg p-1 overflow-y-auto flex-grow mt-2" id="chat" user-id = user._id)
+                    each message in messages
+                        if message.user_id != user._id
+                            div(class="flex items-end gap-2.5 mt-2")
+                                img(class="w-8 h-8 rounded-full" src=message.user.image alt="Jese image")
+                                <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700 ">
+                                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                                        <span class="text-sm font-semibold text-gray-900 dark:text-white">#{message.user.name}</span>
+                                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
+                                    </div>
+                                    if message.content
+                                        <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">#{message.content}</p>
+                                    
+                                    if message.images 
+                                        <div class="grid gap-4 grid-cols-2 my-2.5">
+                                            each image in message.images 
+                                                <div class="group relative">
+                                                    //- <div class="absolute w-full h-full bg-gray-900/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
+                                                    //-     <button data-tooltip-target="download-image-1" class="inline-flex items-center justify-center rounded-full h-8 w-8 bg-white/30 hover:bg-white/50 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50">
+                                                    //-         <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
+                                                    //-             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3"/>
+                                                    //-         </svg>
+                                                    //-     </button>
+                                                    //-     <div id="download-image-1" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                                                    //-         | Download image
+                                                    //-         <div class="tooltip-arrow" data-popper-arrow></div>
+                                                    //-     </div>
+                                                    //- </div>
+                                                    img(src=image class="rounded-lg")
+                                                </div>
+                                        </div>
+                                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
+                                </div>
+                                <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" data-dropdown-placement="bottom-start" class="hidden hover:block inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600" type="button">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
+                                        <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                                    </svg>
+                                </button>
+                                <div id="dropdownDots" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600">
+                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reply</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Forward</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Copy</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                        else
+                            <div class="flex items-end gap-2.5 justify-end mt-2">
+                                <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" data-dropdown-placement="bottom-start" class="hidden hover:block inline-flex self-center items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:ring-gray-600" type="button">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
+                                        <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z"/>
+                                    </svg>
+                                </button>
+                                <div id="dropdownDots" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-40 dark:bg-gray-700 dark:divide-gray-600">
+                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reply</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Forward</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Copy</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="flex flex-col w-full max-w-[320px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-l-xl rounded-l-xl dark:bg-gray-700">
+                                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
+                                    </div>
+                                    if message.content
+                                        <p class="text-sm font-normal text-gray-900 dark:text-white">#{message.content}</p>
+                                    if message.images 
+                                        <div class="grid gap-4 grid-cols-2 my-2.5">
+                                            each image in message.images 
+                                                <div class="group relative">
+                                                    //- <div class="absolute w-full h-full bg-gray-900/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
+                                                    //-     <button data-tooltip-target="download-image-1" class="inline-flex items-center justify-center rounded-full h-8 w-8 bg-white/30 hover:bg-white/50 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50">
+                                                    //-         <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
+                                                    //-             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3"/>
+                                                    //-         </svg>
+                                                    //-     </button>
+                                                    //-     <div id="download-image-1" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                                                    //-         | Download image
+                                                    //-         <div class="tooltip-arrow" data-popper-arrow></div>
+                                                    //-     </div>
+                                                    //- </div>
+                                                    img(src=image class="rounded-lg")
+                                                </div>
+                                        </div>
+                                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
+                                </div>
+                            </div>
+                    div(class="inner-list-typing")
+                        
+
+                <!-- Message Input -->
+                div(class="custom-file-container" data-upload-id="my-unique-id")
+
+                div(class="tooltip-emoji" role="tooltip")
+                    emoji-picker(class="light")
+
+                form(class="flex items-center w-full mt-2" id="form-chat")  
+                    div(class="relative w-full")
+                        label(for="file-upload-with-preview-my-unique-id" class="cursor-pointer") 
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-3">
+                                    <i class="fa-solid fa-paperclip"></i>
+                            </div>
+                        <input name="content" type="text" class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Type your message" required />
+                        <button type="button" class="absolute inset-y-0 end-0 flex items-center pe-3" id="button-emoji">
+                            <i class="fa-solid fa-face-smile"></i>
+                        </button>
+                    <button type="button" class="text-xl inline-flex items-center py-2.5 px-3 ms-2 text-sm font-medium text-white bg-purple-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+            </div>
+
+            <div id="image-full-screen">
+                
+            </div>
+            
+        
+    script(type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js")
+
+    script(type="module" src="https://unpkg.com/file-upload-with-preview/dist/index.js")
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.6/viewer.min.js") 
+
+    script(src="/socket.io/socket.io.js")
+
+    script(type="module" src="/admin/script/newChat.js")
+
+

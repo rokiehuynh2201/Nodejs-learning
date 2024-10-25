@@ -103,10 +103,10 @@ nav .menu-items{
     border-bottom: 2px solid var(--text-divider); 
 }
 
-.menu-items .nav-links li:hover{
+.menu-items .nav-links li:not(.active) :hover{
     background-color: var(--text-hover);
     border-radius: 25px;
-}
+}   
 
 .active{
     background-color: var(--text-hover);
@@ -114,6 +114,12 @@ nav .menu-items{
     border-bottom: 0 ;
 }
 
+.menu-items .nav-links .active a i, .link-name{
+    color: #fff;
+}
+.menu-items .nav-links .active .link-name{
+    color: #fff;
+}
 .menu-items li a{
     display: flex;
     align-items: center;
@@ -122,18 +128,6 @@ nav .menu-items{
     text-decoration: none;
     position: relative;
 }
-
-
-/* .menu-items li a:hover::before{
-    position: absolute;
-    height: 5px;
-    width: 5px;
-    border-radius: 50%;
-    background-color: var(--primary-color);
-    content: "";
-    left: -7px;
-} */
-
 
 .menu-items li a i{
     min-width: 45px;
@@ -154,7 +148,6 @@ nav .menu-items{
 
 nav.close li a .link-name{
     opacity: 0;
-    /* pointer-events: none; */
 }
 
 .nav-links li a:hover i,

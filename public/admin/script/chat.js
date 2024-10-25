@@ -1,5 +1,7 @@
 import * as Popper from "https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js";
 import insertText from "https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.js";
+import { FileUploadWithPreview } from 'https://unpkg.com/file-upload-with-preview/dist/index.js';
+// import 'file-upload-with-preview/dist/style.css';
 
 // Dropdown list
 const  DropdownList = () => {
@@ -37,8 +39,8 @@ DropdownList()
 // End Dropdown list
 
 //Upload Image
-const upload = new FileUploadWithPreview.FileUploadWithPreview('my-unique-id',{
-  multiple: true,
+const upload = new FileUploadWithPreview('my-unique-id',{
+    multiple: true,
 });
 // End upload image
 
@@ -145,8 +147,15 @@ socket.on("SEVER_RETURN_MESSAGE", (data) => {
   li.innerHTML += html;
   
   id.insertBefore(li, exist); 
+  const imageInsert = document.querySelector(".message-image")
+  if(imageInsert)
+  {
+    console.log("yes")
+    const gallery = new Viewer(imageInsert);
+  }
   bodyChat.scrollTop = bodyChat.scrollHeight;
   DropdownList()
+
 });
 
 // END SERVER_SEND_MESSAGE
@@ -235,6 +244,11 @@ socket.on("SERVER_RETURN_TYPING", async (content) => {
     }
   }
 });
-
 // End Typing
 
+// Preview image
+const imagePreview = document.querySelector("ul.conversation-wrapper")
+if(imagePreview){
+  const gallery = new Viewer(imagePreview);
+}
+// End Preview image

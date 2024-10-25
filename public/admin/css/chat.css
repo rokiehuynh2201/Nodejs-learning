@@ -538,7 +538,7 @@ emoji-picker{
 .message-image img{
     width: 150px;
     height: 150px;
-    object-fit: contain;
+    object-fit: cover;
     padding: 5px;
     border-radius: 30px;
 }
@@ -557,18 +557,12 @@ emoji-picker{
     display: none;
 }
 
-.custom-file-container {
-    overflow: hidden; /* Hide overflow in the parent container */
-  }
-
 .custom-file-container .image-preview{
     height: auto;
     padding: 0;
     margin: 0;
     background-color: #fff;
     background-image: none !important;
-    overflow-x: auto;
-    white-space: nowrap;
 }
 
 .custom-file-container .image-preview-item{
@@ -578,6 +572,12 @@ emoji-picker{
     margin: 0;
     padding: 0;
     margin-left: 10px;
-    background-size: contain;
-    display: inline-block;
+}
+
+.viewer-footer .viewer-title{
+    display: none;
+}
+
+.viewer-toolbar{
+    display: none;
 }

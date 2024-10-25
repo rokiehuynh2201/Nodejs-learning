@@ -23,21 +23,45 @@ block main
         .search-product 
             <i class="fa-solid fa-magnifying-glass"></i>
             form(action="" method="GET" id="form-search-product")
-                input(type="text" placeholder="Search..." name="product-search")
+                input(type="text" placeholder="Search..."  id="search-input")
         ul.list-view 
-            each button in buttonStatus
-                li 
-                    div(
-                        class=`button-status ${button.class}`
-                        status=button.status
-                    ) 
-                        a(href="javascript:;") #{button.name}
+            //- each button in buttonStatus
+            //-     li 
+            //-         div(
+            //-             class=`button-status ${button.class}`
+            //-             status=button.status
+            //-         ) 
+            //-             a(href="javascript:;") #{button.name}
+            //- li
+            //-     .filter 
+            //-         <i class="fa-solid fa-filter"></i>
+            //-         span Export 
+            //- li
+            //-     .filter 
+            //-         <i class="fa-solid fa-pen-to-square"></i>
+            //-         span Import
             li
-                .filter 
+                .export__file
+                    button.filter#button-exports 
+                        <i class="fa-solid fa-download"></i>
+                        span Export
+                    .export__file-option
+                        label(for="") Export As <i class="fa-solid fa-arrow-right"></i>
+                        label(for="") CSV
+                            img(src="https://static-00.iconduck.com/assets.00/csv-icon-1791x2048-ot22nr8i.png", alt="alt")
+                        label(for="") Excel
+                            img(src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTroU91FLk1e5CTmveZCstER9A-qLpJGNtZvA&s", alt="alt")
+                    
+            li
+                button.filter 
+                    <i class="fa-solid fa-upload"></i>
+                    span Import
+            li
+                .filter#filter-button 
                     <i class="fa-solid fa-filter"></i>
                     span Filter 
             li
-                .filter 
+                button.filter 
                     <i class="fa-solid fa-pen-to-square"></i>
                     span Update
                 //- li 
@@ -52,42 +76,59 @@ block main
                 //-         status="inactive"
                 //-     )
                 //-         a(href="javascript:;") Inactive
-    .card 
+    //- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    //-     <div class="modal-dialog">
+    //-         <div class="modal-content">
+    //-             <div class="modal-header">
+    //-                 <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+    //-                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    //-             </div>
+    //-             <div class="modal-body">abc</div>
+    //-             <div class="modal-footer">
+    //-                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    //-                 <button type="button" class="btn btn-primary">Save changes</button>
+    //-             </div>
+    //-         </div>
+    //-     </div>
+    //- </div>
+    .card-product 
         .card-header
             .card-header_content 
                 h5 All products 
+                
                 <i class="fa-solid fa-ellipsis-vertical"></i>
         .card-body
             .board 
-                table(width="100%")
+                table(width="100%" id="table-product")
                     thead 
                         tr 
-                            td ID
-                            td Name 
-                            td Price 
-                            td Creater 
-                            td Latest Edit 
-                            td Status 
+                            td ID <i class="fa-solid fa-arrow-up "></i>
+                            td Name <i class="fa-solid fa-arrow-up"></i>
+                            td Price <i class="fa-solid fa-arrow-up"></i>
+                            td Creater <i class="fa-solid fa-arrow-up"></i>
+                            td Latest Edit <i class="fa-solid fa-arrow-up"></i>
+                            td.not-pick Status
                             td 
                             td 
                                 input(type="checkbox", name="")
                     tbody
                         each item,index in product 
-                            tr 
-                                td #{item.position}
+                            tr(data-id=item._id) 
+                                td 
+                                    .sort.sort-data #{item.position}
                                 td  
                                     .product 
                                         img(src=item.image alt="")
                                         .product-de 
-                                            h5 #{item.title}
+                                            h5.sort.sort-data #{item.title}
                                 td.price 
-                                    span #{item.price}
+                                    span.sort.sort-data #{item.price}
                                 td.creator 
-                                    h5.creator-name Huỳnh Gia Bảo
-                                    span.date  August 7th 2024, 3:24:34 pm
+                                    h5.creator-name.sort.sort-data Huỳnh Gia Bảo
+                                    span.date.sort  August 7th 2024, 3:24:34 pm
                                 td.editor
-                                    h5.creator-name Huỳnh Gia Bảo
-                                    span.date  August 7th 2024, 8:57:48 pm
+                                    h5.creator-name.sort.sort-data Huỳnh Gia Bảo
+                                    span.date.sort  August 7th 2024, 8:57:48 pm
                                 td.status.noSelect 
                                     span(
                                         class=item.status === 'active' ? 'active' : 'inactive' 
@@ -97,10 +138,160 @@ block main
                                 td.edit
                                     a(href="#") Edit 
                                     a(href="#") View 
-                                    <i class="fa-solid fa-trash-can"></i>
+                                    i(class="fa-solid fa-trash-can open-popup" data-id = item._id)
                                 td 
                                     input(type="checkbox", name="")
-                                    
+        .card-footer
+            .select-product-show
+                span.showing Showing: 
+                <select class="select-page">
+                    - var numbers = [5, 10, 15]
+                    - var selectedNumber = 5
+                    each number in numbers
+                        option(value=number, selected=pagination.limit ===number ? true : false) #{number}
+                </select>
+                span  of 15
+            .pagination
+                if(pagination.prev) 
+                    button.button-page(page=pagination.prev) Prev 
+                each page in pagination.items
+                    button( page=page 
+                            class=`button-page ${pagination.current === page ? "button-active" : ""}` 
+                            disabled = page =="…" ? true : false 
+                            ) #{page}
+                if(pagination.next)
+                    button.button-page(page=pagination.next) Next
+    div(
+        class="popup"
+        id="popup"
+    )                
+        div(
+            class="overlay"
+        )
+        .popup-content 
+            h4 Do you want to delete this 
+            .control 
+                button(class="deleted" id="button-deleted") Yes
+                button(class="no-deleted") No
+    div(
+        class="container-filter-nav"
+    )
+        div(
+            class="overlay-filter-nav"
+        )
+        div(
+            class="filter-nav"
+        ) 
+            div(
+                class="header-filter-nav"
+            )
+                .header-name 
+                    span Filters
+                .button-close-nav 
+                    <i class="fa-solid fa-x"></i>
+            div(
+                class="filter-content"
+            )   
+                div(
+                    class="product-view"
+                ) 
+                    .header-product-view 
+                        span Product state
+                    .content-product-view 
+                            .form-check
+                                input(type="radio" name="view" value="all" id="all")
+                                label(for="all") All
+                            .form-check
+                                input(type="radio" name="view" value="all" id="all")
+                                label(for="all") Active
+                            .form-check
+                                input(type="radio" name="view" value="all" id="all")
+                                label(for="all") Inactive
+                    .footer-product-view 
+                        <i class="fa-solid fa-x"></i>
+                        span Clear
+                div(
+                        class="product-view"
+                    ) 
+                        .header-product-view 
+                            span Product type
+                        .content-product-view 
+                                .form-check
+                                    input(type="radio" name="view" value="all" id="all")
+                                    label(for="all") Shoes
+                                .form-check
+                                    input(type="radio" name="view" value="all" id="all")
+                                    label(for="all") Jewelery
+                                .form-check
+                                    input(type="radio" name="view" value="all" id="all")
+                                    label(for="all") Clothing
+                                .form-check
+                                    input(type="radio" name="view" value="all" id="all")
+                                    label(for="all") Electronics
+                        .footer-product-view 
+                            <i class="fa-solid fa-x"></i>
+                            span Clear
+                div(
+                        class="product-view"
+                    ) 
+                        .header-product-view 
+                            span Product type
+                        .content-product-view 
+                                .form-check
+                                    input(type="radio" name="view" value="all" id="all")
+                                    label(for="all") Shoes
+                                .form-check
+                                    input(type="radio" name="view" value="all" id="all")
+                                    label(for="all") Jewelery
+                                .form-check
+                                    input(type="radio" name="view" value="all" id="all")
+                                    label(for="all") Clothing
+                                .form-check
+                                    input(type="radio" name="view" value="all" id="all")
+                                    label(for="all") Electronics
+                        .footer-product-view 
+                            <i class="fa-solid fa-x"></i>
+                            span Clear
+                div(
+                        class="product-view"
+                    ) 
+                        .header-product-view 
+                            span Product vendor
+                        .content-product-2-col
+                            .content-product-view
+                                    .form-check
+                                        input(type="radio" name="view" value="all" id="all")
+                                        label(for="all") Shoes
+                                    .form-check
+                                        input(type="radio" name="view" value="all" id="all")
+                                        label(for="all") Jewelery
+                                    .form-check
+                                        input(type="radio" name="view" value="all" id="all")
+                                        label(for="all") Clothing
+                                    .form-check
+                                        input(type="radio" name="view" value="all" id="all")
+                                        label(for="all") Electronics
+                            .content-product-view
+                                    .form-check
+                                        input(type="radio" name="view" value="all" id="all")
+                                        label(for="all") Shoes
+                                    .form-check
+                                        input(type="radio" name="view" value="all" id="all")
+                                        label(for="all") Jewelery
+                                    .form-check
+                                        input(type="radio" name="view" value="all" id="all")
+                                        label(for="all") Clothing
+                                    .form-check
+                                        input(type="radio" name="view" value="all" id="all")
+                                        label(for="all") Electronics
+                        .footer-product-view 
+                            <i class="fa-solid fa-x"></i>
+                            span Clear
+            div(
+                class="footer-filter-nav"
+            )
+                button.clear-filter.button-filter Clear all filters 
+                button.save-filter.button-filter Save
     script(src="/admin/script/productAction.js" type="module") 
 
                         
